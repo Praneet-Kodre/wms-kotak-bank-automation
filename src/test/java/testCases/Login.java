@@ -1,5 +1,6 @@
 package testCases;
 
+import java.nio.file.FileSystems;
 import java.util.Map;
 import org.apache.log4j.Logger;
 import org.testng.ITestContext;
@@ -19,9 +20,10 @@ public class Login extends TestSetup {
 	@BeforeClass(alwaysRun = true)
 	public void init(ITestContext context) throws Exception {
 		context.setAttribute("WebDriver", getDriver());
+		log.info(context.getCurrentXmlTest().getParameter("excelPath"));
 		login = new LoginPage(getDriver());
 		Executor.setTestCase("Login");
-		ExcelReader ex = new ExcelReader("C:/Users/prane/eclipse-workspace/KotakIaop/kotakiaop/src/test/resources/TestData.xlsx", 0);
+		ExcelReader ex = new ExcelReader(FileSystems.getDefault().getPath(context.getCurrentXmlTest().getParameter("excelPath")).normalize().toAbsolutePath().toString(), 0);
         Map<String, Map<String, String>> excelData =ex.getExcelAsMap();
         log.info("Excel Data for 2nd row and column - Username : "+excelData.get("2").get("Username"));
         log.info("Excel Data for 1st row and column - Password : "+excelData.get("1").get("Password"));

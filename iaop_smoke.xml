@@ -11,6 +11,7 @@
 		<!-- Mandatory parameters -->
 		<parameter name="userName" value="103332510" />
 		<parameter name="password" value="Quality123" />
+		<parameter name="excelPath" value="src/test/resources/TestData.xlsx" />
 		<classes>
 			<class name="testCases.Login">
 			</class>
