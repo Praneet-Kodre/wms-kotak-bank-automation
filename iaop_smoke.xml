@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Smoke Suite" configfailurepolicy="continue">
+	<parameter name="userName" value="103332510" />
+	<parameter name="password" value="Quality123" />
+	<listeners>
+		<listener class-name="testListener.ListenerTest"></listener>
+		<listener class-name="testListener.TestNGEmailableReport2" />
+	</listeners>
+	<test name="Test">
+		<!-- Mandatory parameters -->
+		<parameter name="userName" value="103332510" />
+		<parameter name="password" value="Quality123" />
+		<classes>
+			<class name="testCases.Login">
+			</class>
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->
