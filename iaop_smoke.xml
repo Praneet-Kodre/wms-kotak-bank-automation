@@ -12,6 +12,8 @@
 		<parameter name="userName" value="103332510" />
 		<parameter name="password" value="Quality123" />
 		<parameter name="excelPath" value="src/test/resources/TestData.xlsx" />
+		<parameter name="captchaPath" value="src/test/resources/captcha.png" />
+		<parameter name="tesseractPath" value="src/test/resources/Tesseract-OCR/tessdata" />
 		<classes>
 			<class name="testCases.Login">
 			</class>

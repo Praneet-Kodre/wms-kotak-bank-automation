@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.FileSystems;
+
 import javax.xml.bind.DatatypeConverter;
 
 public class LoginPage extends TestInfra {
@@ -21,10 +23,10 @@ public class LoginPage extends TestInfra {
 		super(driver);
 	}
 	
-	public boolean login(String userName, String password, String path) {
+	public boolean login(String userName, String password, String captchaPath, String tesseractPath) {
 		boolean status = false;
 		try {
-			attemptCaptchaCode(userName, path);
+			attemptCaptchaCode(userName, captchaPath, tesseractPath);
 			waitForElementToClick(By.id(pass_word));
 			setValue(By.id(pass_word), password);
 			clickOnWebElement(By.xpath(login_button));
@@ -45,7 +47,7 @@ public class LoginPage extends TestInfra {
 		return status;
 	}
 
-	public boolean attemptCaptchaCode(String userName, String path) throws TesseractException, IOException {
+	public boolean attemptCaptchaCode(String userName, String captchaPath, String tesseractPath) throws TesseractException, IOException {
 		boolean result = false;
 		int attempts = 0;
 		while (attempts < 50) {
@@ -53,7 +55,7 @@ public class LoginPage extends TestInfra {
 				waitForElementToClick(By.id(user_name));
 				setValue(By.id(user_name), userName);
 				Thread.sleep(2000);
-				setValue(By.xpath(captcha_element), getCaptchaText(path));
+				setValue(By.xpath(captcha_element), getCaptchaText(captchaPath, tesseractPath));
 				Thread.sleep(2000);
 				if(isElementActive(By.xpath(next_button))) {
 					clickOnWebElement(By.xpath(next_button));
@@ -75,11 +77,11 @@ public class LoginPage extends TestInfra {
 		return result;
 	}
 
-	public String getCaptchaText(String path) throws TesseractException, IOException {
+	public String getCaptchaText(String captchaPath, String tesseractPath) throws TesseractException, IOException {
 		String uri = driver.findElement(By.xpath("//img[contains(@src,'data')]")).getAttribute("currentSrc");
 		String[] strings = uri.split(",");
 		byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
-		File file = new File(path);
+		File file = new File(FileSystems.getDefault().getPath(captchaPath).normalize().toAbsolutePath().toString());
 		try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
 			outputStream.write(data);
 		} catch (IOException e) {
@@ -92,8 +94,8 @@ public class LoginPage extends TestInfra {
 		tesseract.setTessVariable("user_defined_dpi", "300");
 		tesseract.setTessVariable("tessedit_char_whitelist",
 				"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
-		tesseract.setDatapath("D:\\Java_imagetotext\\Tesseract-OCR\\tessdata");
-		String captchaText = tesseract.doOCR(new File(path)).trim().replaceAll(" ", "");
+		tesseract.setDatapath(FileSystems.getDefault().getPath(tesseractPath).normalize().toAbsolutePath().toString());
+		String captchaText = tesseract.doOCR(new File(FileSystems.getDefault().getPath(captchaPath).normalize().toAbsolutePath().toString())).trim().replaceAll(" ", "");
 		log.info("CAPTCHA TEXT : " + captchaText);
 		file.delete();
 		return captchaText;

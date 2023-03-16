@@ -14,7 +14,6 @@ import testPages.LoginPage;
 
 public class Login extends TestSetup {
 	private LoginPage login;
-	private final String path = "D:\\captcha.png";
 	private static final Logger log = Logger.getLogger(Login.class);
 
 	@BeforeClass(alwaysRun = true)
@@ -34,10 +33,10 @@ public class Login extends TestSetup {
 	}
 
 
-	@Parameters({ "userName", "password" })
+	@Parameters({ "userName", "password", "captchaPath", "tesseractPath" })
 	@Test(groups = { "smoke" }, description = "Login", priority = 0)
-	public void login(String userName, String password) throws Exception {
-        if (!login.login(userName, password, path)) {
+	public void login(String userName, String password, String captchaPath, String tesseractPath) throws Exception {
+        if (!login.login(userName, password, captchaPath, tesseractPath)) {
 			throw new Exception("FAIL");
 		} else {
 			log.info("PASS");
