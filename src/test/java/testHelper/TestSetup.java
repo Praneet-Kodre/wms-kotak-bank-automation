@@ -1,13 +1,13 @@
 package testHelper;
 
-import java.util.concurrent.TimeUnit;
+import java.io.File;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
@@ -15,13 +15,14 @@ import org.testng.annotations.Parameters;
 
 public class TestSetup {
 	private WebDriver driver;
-	private static int SESSION_TIMEOUT = 10;
+	//private static int SESSION_TIMEOUT = 10;
 	private static final Logger log = Logger.getLogger(TestSetup.class);
 
 	@Parameters({ "url", "browser" })
 	@BeforeClass(alwaysRun = true)
-	public void initDriver(@Optional("nbuat.kotak.com/knb2/") String url, @Optional("chrome") String browser) throws Exception {
+	public void initDriver(@Optional("nbuat.kotak.com/knb2/") String url, @Optional("chrome") String browser, ITestContext context) throws Exception {
 		startDriver(url, browser);
+		context.setAttribute("WebDriver", getDriver());
 	}
 	
 	public void startDriver(String url, String browserName) {

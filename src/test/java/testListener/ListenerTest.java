@@ -51,7 +51,7 @@ public class ListenerTest implements ITestListener {
 
 	public void takeScreenShot(String methodName, WebDriver driver) {
 		File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		// The below method will save the screen shot in d drive with test method name
+		// The below method will save the screen shot in reports directory drive with test method name
 		try {
 			String reportDirectory = new File(System.getProperty("user.dir")).getAbsolutePath() + "/target/surefire-reports";
 			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-uuuu_HH-mm-ss");

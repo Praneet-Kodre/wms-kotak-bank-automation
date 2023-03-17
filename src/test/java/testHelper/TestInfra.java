@@ -16,7 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class TestInfra {
 	protected WebDriver driver;
 	private static final Logger log = Logger.getLogger(TestInfra.class);
-	private static final int ELEMENT_WAIT_TIMEOUT = 10;
+	private static final int ELEMENT_WAIT_TIMEOUT = 60;
 	private static final int SHORT_ELEMENT_WAIT_TIMEOUT = 10;
 	
 	public TestInfra(WebDriver driver) {

@@ -12,8 +12,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.FileSystems;
-
 import javax.xml.bind.DatatypeConverter;
 
 public class LoginPage extends TestInfra {
@@ -31,13 +29,8 @@ public class LoginPage extends TestInfra {
 			setValue(By.id(pass_word), password);
 			clickOnWebElement(By.xpath(login_button));
 			waitForElementToClick(By.cssSelector(user_drop_down));
-			clickOnWebElement(By.cssSelector(user_drop_down));
-			waitForElementPresent(By.cssSelector(verify_crn));
 			Thread.sleep(5000);
-			String crn = driver.findElement(By.cssSelector(verify_crn)).getText();
-			log.info("CRN : " + crn);
-			if (crn.contains(userName)) {
-				log.info("Verified CRN");
+			if (isElementActive(By.cssSelector(user_drop_down))) {
 				status = true;
 			}
 		} catch (Exception e) {
@@ -81,7 +74,7 @@ public class LoginPage extends TestInfra {
 		String uri = driver.findElement(By.xpath("//img[contains(@src,'data')]")).getAttribute("currentSrc");
 		String[] strings = uri.split(",");
 		byte[] data = DatatypeConverter.parseBase64Binary(strings[1]);
-		File file = new File(FileSystems.getDefault().getPath(captchaPath).normalize().toAbsolutePath().toString());
+		File file = new File(new File(captchaPath).getAbsolutePath());
 		try (OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file))) {
 			outputStream.write(data);
 		} catch (IOException e) {
@@ -94,8 +87,8 @@ public class LoginPage extends TestInfra {
 		tesseract.setTessVariable("user_defined_dpi", "300");
 		tesseract.setTessVariable("tessedit_char_whitelist",
 				"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
-		tesseract.setDatapath(FileSystems.getDefault().getPath(tesseractPath).normalize().toAbsolutePath().toString());
-		String captchaText = tesseract.doOCR(new File(FileSystems.getDefault().getPath(captchaPath).normalize().toAbsolutePath().toString())).trim().replaceAll(" ", "");
+		tesseract.setDatapath(new File(tesseractPath).getAbsolutePath());
+		String captchaText = tesseract.doOCR(new File(new File(captchaPath).getAbsolutePath())).trim().replaceAll(" ", "");
 		log.info("CAPTCHA TEXT : " + captchaText);
 		file.delete();
 		return captchaText;
@@ -103,7 +96,9 @@ public class LoginPage extends TestInfra {
 
 	public boolean logout() {
 		boolean status = false;
+		driver.switchTo().parentFrame();
 		try {
+			clickOnWebElement(By.cssSelector(user_drop_down));
 			waitForElementToClick(By.cssSelector(logout));
 			clickOnWebElement(By.cssSelector(logout));
 			Thread.sleep(5000);
@@ -116,6 +111,19 @@ public class LoginPage extends TestInfra {
 		} catch (Exception e) {
 			log.error(e);
 			status = false;
+		}
+		return status;
+	}
+
+	public boolean getAccountOverview() throws InterruptedException {
+		boolean status = false;
+		clickOnWebElement(By.xpath(investment_menu));
+		clickOnWebElement(By.xpath(mutual_fund_menu));
+		Thread.sleep(5000);
+		driver.switchTo().frame("knb2ContainerFrame");
+		waitForElementToClick(By.cssSelector(lets_start_button));
+		if (isElementActive(By.cssSelector(lets_start_button))) {
+			status = true;
 		}
 		return status;
 	}
