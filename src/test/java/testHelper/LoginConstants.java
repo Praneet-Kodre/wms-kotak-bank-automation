@@ -13,4 +13,5 @@ public interface LoginConstants {
 	String mutual_fund_menu = "//p[text()='Mutual Fund']";
 	String lets_start_button = "div.ripple-effect.rippleRed";
 	String verify_post_login_text = "p.t2_1.subTitle.subTitleBig.sub-alias";
+	String knb2Frame = "knb2ContainerFrame";
 }

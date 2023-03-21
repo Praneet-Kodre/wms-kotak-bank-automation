@@ -83,6 +83,10 @@ public class TestInfra {
 				.until(ExpectedConditions.invisibilityOfElementLocated(locator));
 	}
 
+	public WebDriver waitForframeToBeAvailableAndSwitchToIt(String name) {
+		return (new WebDriverWait(driver, Duration.ofSeconds(SHORT_ELEMENT_WAIT_TIMEOUT))).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(name));
+	}
+
 	public WebElement waitForElementToClick(final By locator) {
 		return (new WebDriverWait(driver, Duration.ofSeconds(ELEMENT_WAIT_TIMEOUT)))
 				.until(ExpectedConditions.elementToBeClickable(locator));

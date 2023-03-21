@@ -119,8 +119,7 @@ public class LoginPage extends TestInfra {
 		boolean status = false;
 		clickOnWebElement(By.xpath(investment_menu));
 		clickOnWebElement(By.xpath(mutual_fund_menu));
-		Thread.sleep(5000);
-		driver.switchTo().frame("knb2ContainerFrame");
+		waitForframeToBeAvailableAndSwitchToIt(knb2Frame);
 		waitForElementToClick(By.cssSelector(lets_start_button));
 		if (isElementActive(By.cssSelector(lets_start_button))) {
 			status = true;

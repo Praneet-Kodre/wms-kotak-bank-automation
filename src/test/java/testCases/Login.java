@@ -44,7 +44,6 @@ public class Login extends TestSetup {
 			throw new Exception("getAccountOverview FAIL");
 		} else {
 			log.info("getAccountOverview PASS");
-
 		}
 		if (!login.logout()) {
 			throw new Exception("Logout FAIL");
