@@ -25,12 +25,12 @@ public class LoginPage extends TestInfra {
 		boolean status = false;
 		try {
 			attemptCaptchaCode(userName, captchaPath, tesseractPath);
-			waitForElementToClick(By.id(pass_word));
-			setValue(By.id(pass_word), password);
-			clickOnWebElement(By.xpath(login_button));
-			waitForElementToClick(By.cssSelector(user_drop_down));
+			waitForElementToClick(By.id(PASS_WORD));
+			setValue(By.id(PASS_WORD), password);
+			clickOnWebElement(By.xpath(LIGIN_BUTTON));
+			waitForElementToClick(By.cssSelector(USER_DROP_DOWN));
 			Thread.sleep(5000);
-			if (isElementActive(By.cssSelector(user_drop_down))) {
+			if (isElementActive(By.cssSelector(USER_DROP_DOWN))) {
 				status = true;
 			}
 		} catch (Exception e) {
@@ -45,16 +45,16 @@ public class LoginPage extends TestInfra {
 		int attempts = 0;
 		while (attempts < 50) {
 			try {
-				waitForElementToClick(By.id(user_name));
-				setValue(By.id(user_name), userName);
+				waitForElementToClick(By.id(USER_NAME));
+				setValue(By.id(USER_NAME), userName);
 				Thread.sleep(2000);
-				setValue(By.xpath(captcha_element), getCaptchaText(captchaPath, tesseractPath));
+				setValue(By.xpath(CAPTCHA_ELEMENT), getCaptchaText(captchaPath, tesseractPath));
 				Thread.sleep(2000);
-				if(isElementActive(By.xpath(next_button))) {
-					clickOnWebElement(By.xpath(next_button));
+				if(isElementActive(By.xpath(NEXT_BUTTON))) {
+					clickOnWebElement(By.xpath(NEXT_BUTTON));
 				}
 				Thread.sleep(2000);
-				if(isElementActive(By.id(pass_word))) {
+				if(isElementActive(By.id(PASS_WORD))) {
 					result = true;
 					break;
 				} else {
@@ -94,19 +94,20 @@ public class LoginPage extends TestInfra {
 		return captchaText;
 	}
 
-	public boolean logout() {
+	public boolean logout(String url) {
 		boolean status = false;
 		driver.switchTo().parentFrame();
 		try {
-			clickOnWebElement(By.cssSelector(user_drop_down));
-			waitForElementToClick(By.cssSelector(logout));
-			clickOnWebElement(By.cssSelector(logout));
+			clickOnWebElement(By.cssSelector(USER_DROP_DOWN));
+			waitForElementToClick(By.cssSelector(LOGOUT));
+			clickOnWebElement(By.cssSelector(LOGOUT));
 			Thread.sleep(5000);
 			String text = driver.findElement(By.cssSelector("h5")).getText();
 			if (text.contains("logged out")) {
 				log.info(text);
 				log.info("Logged Out");
 				status = true;
+				driver.get("https:" + url);
 			}
 		} catch (Exception e) {
 			log.error(e);
@@ -115,14 +116,33 @@ public class LoginPage extends TestInfra {
 		return status;
 	}
 
+
 	public boolean getAccountOverview() throws InterruptedException {
 		boolean status = false;
-		clickOnWebElement(By.xpath(investment_menu));
-		clickOnWebElement(By.xpath(mutual_fund_menu));
+		clickOnWebElement(By.xpath(INVESTMENT_MENU));
+		clickOnWebElement(By.xpath(MUTUAL_FUND_MENU));
 		Thread.sleep(5000);
 		driver.switchTo().frame("knb2ContainerFrame");
-		waitForElementToClick(By.cssSelector(lets_start_button));
-		if (isElementActive(By.cssSelector(lets_start_button))) {
+		if (isElementActive(By.xpath(MY_INVEST_PAGE))) {
+			String totalAmount = driver.findElement(By.xpath(TOTAL_INVESTED_AMOUNT)).getText();
+			log.info("Total Invest Amount:" + totalAmount);
+			status = true;
+		} else if (isElementActive(By.xpath(MUTUAL_FUND_INVES_PAGE))) {
+			String leadgenerationpage = driver.findElement(By.xpath(MUTUAL_FUND_INVES_PAGE)).getText();
+			log.info("Display lead generation Page:" + leadgenerationpage);
+			status = true;
+		}
+		return status;
+	}
+	public boolean getTransactOverview() throws InterruptedException {
+		boolean status = false;
+		waitForElementToClick(By.xpath(TRANSCAT_MENU));
+		if (isElementActive(By.xpath(TRANSCAT_MENU))) {
+			clickOnWebElement(By.xpath(TRANSCAT_MENU));
+			clickOnWebElement(By.xpath(TRANSCAT_PURCHASE));
+			waitForElementPresent(By.xpath(ONETIME_INVEST));
+			String displayText = driver.findElement(By.xpath(ONETIME_INVEST)).getText();
+			log.info("Display the one time Investment:" + displayText);
 			status = true;
 		}
 		return status;

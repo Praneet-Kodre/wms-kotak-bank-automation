@@ -12,8 +12,7 @@
 		<parameter name="captchaPath" value="src\test\resources\captcha.png" />
 		<parameter name="tesseractPath" value="src\test\resources\Tesseract-OCR\tessdata" />
 		<classes>
-			<class name="testCases.Login">
-			</class>
+			<class name="testCases.CRNAccountOverview"></class>
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->
