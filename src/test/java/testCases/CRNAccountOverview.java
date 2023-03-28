@@ -73,7 +73,7 @@ public class CRNAccountOverview extends TestSetup {
 	@Test(groups = { "smoke" }, description = "Verify login with Auth CRN status", priority = 3)
 	public void loginAuthCRN(String url, String password, String captchaPath, String tesseractPath) throws Exception {
 		login.login(excelData.get("5").get("CRN"), password, captchaPath, tesseractPath);
-		if (login.getAccountOverview()) {
+		if (!login.getAccountOverview()) {
 			login.logout(url);
 			throw new Exception("Verify login with Auth CRN status Fail");
 		} else {
@@ -87,7 +87,7 @@ public class CRNAccountOverview extends TestSetup {
 	public void loginNoBankAccount(String url, String password, String captchaPath, String tesseractPath)
 			throws Exception {
 		login.login(excelData.get("6").get("CRN"), password, captchaPath, tesseractPath);
-		if (login.getAccountOverview()) {
+		if (!login.getAccountOverview()) {
 			login.logout(url);
 			throw new Exception("Verify Login no bank account Fail");
 		} else {
@@ -101,7 +101,7 @@ public class CRNAccountOverview extends TestSetup {
 	public void loginRAsegmentCRN(String url, String password, String captchaPath, String tesseractPath)
 			throws Exception {
 		login.login(excelData.get("7").get("CRN"), password, captchaPath, tesseractPath);
-		if (login.getAccountOverview()) {
+		if (!login.getAccountOverview()) {
 			login.logout(url);
 			throw new Exception("Verify login RA segment status Fail");
 		} else {
@@ -120,6 +120,47 @@ public class CRNAccountOverview extends TestSetup {
 			throw new Exception("Verify login CC segment status Fail");
 		} else {
 			log.info("Verify login CC segment status Pass");
+			login.logout(url);
+		}
+	}
+
+	@Parameters({ "url", "password", "captchaPath", "tesseractPath" })
+	@Test(groups = { "smoke" }, description = "Verify Login without Investment account", priority = 7)
+	public void loginWithoutInvestmentAccount(String url, String password, String captchaPath, String tesseractPath)
+			throws Exception {
+		login.login(excelData.get("9").get("CRN"), password, captchaPath, tesseractPath);
+		if (!login.getAccountClosedStatus()) {
+			login.logout(url);
+			throw new Exception("Verify Login without Investment account Fail");
+		} else {
+			log.info("Verify Login without Investment account Pass");
+			login.logout(url);
+
+		}
+	}
+
+	@Parameters({ "url", "password", "captchaPath", "tesseractPath" })
+	@Test(groups = { "smoke" }, description = "Verify Login with Investment account", priority = 8)
+	public void loginWithInvestmentAccount(String url, String password, String captchaPath, String tesseractPath) throws Exception {
+		login.login(excelData.get("10").get("CRN"), password, captchaPath, tesseractPath);
+		if (!login.getAccountOverview()) {
+			login.logout(url);
+			throw new Exception("Verify Login with Investment account Fail");
+		} else {
+			log.info("Verify Login with Investment account Pass");
+			login.logout(url);
+		}
+	}
+
+	@Parameters({ "url", "password", "captchaPath", "tesseractPath" })
+	@Test(groups = { "smoke" }, description = "Verify Investment account in closed status", priority = 9)
+	public void loginClosedCRN(String url, String password, String captchaPath, String tesseractPath) throws Exception {
+		login.login(excelData.get("1").get("CRN"), password, captchaPath, tesseractPath);
+		if (!login.getAccountClosedStatus()) {
+			login.logout(url);
+			throw new Exception("Verify Investment account in closed status Fail");
+		} else {
+			log.info("Verify Investment account in closed status Pass");
 			login.logout(url);
 		}
 	}

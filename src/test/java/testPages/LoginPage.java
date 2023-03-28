@@ -148,4 +148,20 @@ public class LoginPage extends TestInfra {
 		}
 		return status;
 	}
+
+	public boolean getAccountClosedStatus() throws InterruptedException {
+		boolean status = false;
+		clickOnWebElement(By.xpath(INVESTMENT_MENU));
+		clickOnWebElement(By.xpath(MUTUAL_FUND_MENU));
+		Thread.sleep(5000);
+		driver.switchTo().frame("knb2ContainerFrame");
+		waitForElementPresent(By.cssSelector(VERIFY_POST_LOGIN));
+		if (isElementActive(By.cssSelector(VERIFY_POST_LOGIN))) {
+			String text = driver.findElement(By.cssSelector(VERIFY_POST_LOGIN)).getText();
+			log.info("Account open display :" + text);
+			status = true;
+		}
+		return status;
+	}
+
 }
