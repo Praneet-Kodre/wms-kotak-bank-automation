@@ -59,8 +59,6 @@ public class ListenerTest implements ITestListener {
 			File destFile = new File((String) reportDirectory+"/failure_screenshots/"+methodName+"_"+dtf.format(now)+".png");
             //FileUtils.copyFile(scrFile, new File("D:\\" + methodName + ".png"));
             FileUtils.copyFile(scrFile, destFile);
-            log.info(scrFile);
-            log.info(destFile);
             Reporter.log("<a href='"+ destFile.getAbsolutePath() + "'> <img src='"+ destFile.getAbsolutePath() + "' height='100' width='100'/> </a>");
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -122,8 +122,7 @@ public class LoginPage extends TestInfra {
 
 		clickOnWebElement(By.xpath(INVESTMENT_MENU));
 		clickOnWebElement(By.xpath(MUTUAL_FUND_MENU));
-		Thread.sleep(5000);
-		driver.switchTo().frame("knb2ContainerFrame");
+		waitForframeToBeAvailableAndSwitchToIt(KNB2FRAME);
 		if (isElementActive(By.xpath(MY_INVEST_PAGE))) {
 			String totalAmount = driver.findElement(By.xpath(TOTAL_INVESTED_AMOUNT)).getText();
 			log.info("Total Invest Amount:" + totalAmount);
@@ -153,8 +152,7 @@ public class LoginPage extends TestInfra {
 		boolean status = false;
 		clickOnWebElement(By.xpath(INVESTMENT_MENU));
 		clickOnWebElement(By.xpath(MUTUAL_FUND_MENU));
-		Thread.sleep(5000);
-		driver.switchTo().frame("knb2ContainerFrame");
+		waitForframeToBeAvailableAndSwitchToIt(KNB2FRAME);
 		waitForElementPresent(By.cssSelector(VERIFY_POST_LOGIN));
 		if (isElementActive(By.cssSelector(VERIFY_POST_LOGIN))) {
 			String text = driver.findElement(By.cssSelector(VERIFY_POST_LOGIN)).getText();
