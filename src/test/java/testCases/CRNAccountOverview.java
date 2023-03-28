@@ -30,6 +30,7 @@ public class CRNAccountOverview extends TestSetup {
 		log.info("Excel Data for 2nd row and column - Nominee : " + excelData.get("1").get("Nominee"));
 		log.info("excelData as Map 1st index : " + excelData.get("1"));
 		log.info("excelData as Map full : " + excelData);
+		startRecording(this.getClass().getSimpleName());
 	}
 
 	@Parameters({ "password", "captchaPath", "tesseractPath" })
@@ -155,7 +156,7 @@ public class CRNAccountOverview extends TestSetup {
 	@Parameters({ "url", "password", "captchaPath", "tesseractPath" })
 	@Test(groups = { "smoke" }, description = "Verify Investment account in closed status", priority = 9)
 	public void loginClosedCRN(String url, String password, String captchaPath, String tesseractPath) throws Exception {
-		login.login(excelData.get("1").get("CRN"), password, captchaPath, tesseractPath);
+		login.login(excelData.get("2").get("CRN"), password, captchaPath, tesseractPath);
 		if (!login.getAccountClosedStatus()) {
 			login.logout(url);
 			throw new Exception("Verify Investment account in closed status Fail");
