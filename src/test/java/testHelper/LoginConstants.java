@@ -24,4 +24,6 @@ public interface LoginConstants {
 	String VERIFY_NO_LOGIN="//h2[contains(text(),'Set your Security Questions')]";
 	String LOGOUTCRN="span.marLeftLogout.font15.logoutColor.cursorDefault";
 	String USER_DROP_DOWN_CRN="//div[@id='downloadIcon']";
+	String ACCOUNT_OPEN="//p[text()='Open an Investment Account instantly.']";
+	String PAN_DETAILS="//div[@class='tcover tcoverbdb']";
 }

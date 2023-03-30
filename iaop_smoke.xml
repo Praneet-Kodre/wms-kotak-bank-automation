@@ -13,6 +13,7 @@
 		<parameter name="tesseractPath" value="src\test\resources\Tesseract-OCR\tessdata" />
 		<classes>
 			<class name="testCases.CRNAccountOverview"></class>
+			<class name="testCases.AccountOpeningProcess"></class>
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

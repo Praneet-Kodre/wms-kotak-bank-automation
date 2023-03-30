@@ -115,14 +115,9 @@ public class LoginPage extends TestInfra {
 		}
 		return status;
 	}
-
-
 	public boolean getAccountOverview() throws InterruptedException {
 		boolean status = false;
-
-		clickOnWebElement(By.xpath(INVESTMENT_MENU));
-		clickOnWebElement(By.xpath(MUTUAL_FUND_MENU));
-		waitForframeToBeAvailableAndSwitchToIt(KNB2FRAME);
+		navigateTomenu();
 		if (isElementActive(By.xpath(MY_INVEST_PAGE))) {
 			String totalAmount = driver.findElement(By.xpath(TOTAL_INVESTED_AMOUNT)).getText();
 			log.info("Total Invest Amount:" + totalAmount);
@@ -130,6 +125,10 @@ public class LoginPage extends TestInfra {
 		} else if (isElementActive(By.xpath(MUTUAL_FUND_INVES_PAGE))) {
 			String leadgenerationpage = driver.findElement(By.xpath(MUTUAL_FUND_INVES_PAGE)).getText();
 			log.info("Display lead generation Page:" + leadgenerationpage);
+			status = true;
+		} else if (isElementActive(By.xpath(ACCOUNT_OPEN))) {
+			String letsStart = driver.findElement(By.cssSelector(LETS_START_PROCEED)).getText();
+			log.info("Display the lets start button page:" + letsStart);
 			status = true;
 		}
 		return status;
@@ -162,4 +161,24 @@ public class LoginPage extends TestInfra {
 		return status;
 	}
 
+	private void navigateTomenu() throws InterruptedException {
+		clickOnWebElement(By.xpath(INVESTMENT_MENU));
+		clickOnWebElement(By.xpath(MUTUAL_FUND_MENU));
+		Thread.sleep(40000);
+		log.info("Display the Mutual Fund Page");
+		waitForframeToBeAvailableAndSwitchToIt(KNB2FRAME);
+	}
+
+	public boolean getPanStatus() throws InterruptedException {
+		boolean status = false;
+		if (isElementActive(By.cssSelector(LETS_START_PROCEED))) {
+			clickOnWebElement(By.cssSelector(LETS_START_PROCEED));
+			Thread.sleep(60000);
+			waitForElementPresent(By.cssSelector(LETS_START_PROCEED));
+			String pandetails = driver.findElement(By.xpath(PAN_DETAILS)).getText();
+			log.info("Display the pan details :" + pandetails);
+			status = true;
+		}
+		return status;
+	}
 }
